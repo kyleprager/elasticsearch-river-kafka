@@ -1,0 +1,29 @@
+curl -XPUT 'localhost:9200/_river/es-river-kafka/_meta' -d '{
+    "type" : "kafka",
+    "kafka" : {
+        "broker_host" : "localhost", 
+        "zookeeper" : "localhost",
+        "zookeeper.session.timeout.ms" : "400",
+        "zookeeper.sync.time.ms" : "200",
+        "auto.commit.interval.ms" : "1000",
+        "topic" : "test",
+        "group_id": "es-river-kafka-group-id",
+        "partitions" : [0],
+        "broker_port" : 9092
+    },
+    "index" : {
+        "index_name": "kafka-index",
+        "type_name": "kafka-type",
+        "bulk_timeout_millis": 500, 
+        "bulk_size_messages": 5000
+    }
+}'
+
+
+curl -XPUT 'localhost:9200/_river/test_river/_meta' -d '{
+    "type" : "kafka"
+}'
+
+curl -XPUT 'localhost:9200/_river/test_river/_meta' -d '{
+    "type" : "dummy"
+}'
